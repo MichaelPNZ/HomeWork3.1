@@ -16,12 +16,12 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Rectangle()
+                .foregroundColor(.gray)
                 .ignoresSafeArea()
             VStack {
                 rgbLed
                     .foregroundColor(.red)
                     .contrast(red)
-                    .padding(.top, 20.0)
                 rgbLed
                     .foregroundColor(.yellow)
                     .contrast(yellow)
@@ -37,6 +37,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                     }
                 }
+                .padding()
             }
         }
     }
