@@ -11,25 +11,28 @@ struct ContentView: View {
     @State private var red = 0.3
     @State private var yellow = 0.3
     @State private var green = 0.3
+    @State private var buttonText = "START"
     
     var body: some View {
         ZStack {
             Rectangle()
                 .ignoresSafeArea()
             VStack {
-                redLed
+                rgbLed
+                    .foregroundColor(.red)
                     .contrast(red)
                     .padding(.top, 20.0)
-                yellowLed
+                rgbLed
+                    .foregroundColor(.yellow)
                     .contrast(yellow)
-
-                greenLed
+                rgbLed
+                    .foregroundColor(.green)
                     .contrast(green)
                 Spacer()
                 ZStack {
                     rectangle
                     Button(action: { buttonAction()}) {
-                        Text("START")
+                        Text(buttonText)
                             .font(.title)
                             .foregroundColor(.white)
                     }
@@ -38,7 +41,11 @@ struct ContentView: View {
         }
     }
     
-    func buttonAction() {
+    private func buttonAction() {
+        if buttonText == "START" {
+            buttonText = "NEXT"
+        }
+        
         if red == 0.3 && yellow == 0.3 {
             red = 1.0
             green = 0.3
@@ -52,27 +59,12 @@ struct ContentView: View {
         }
     }
     
-    private var redLed: some View {
+    private var rgbLed: some View {
         Circle()
-            .foregroundColor(.red)
             .frame(width: 130, height: 130)
             .overlay(Circle().stroke(Color.white, lineWidth: 4))
     }
-    
-    private var yellowLed: some View {
-        Circle()
-            .foregroundColor(.yellow)
-            .frame(width: 130, height: 130)
-            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-    }
-    
-    private var greenLed: some View {
-        Circle()
-            .foregroundColor(.green)
-            .frame(width: 130, height: 130)
-            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-    }
-    
+
     private var rectangle: some View {
         Capsule()
             .foregroundColor(.blue)
