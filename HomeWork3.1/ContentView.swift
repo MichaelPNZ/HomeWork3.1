@@ -31,7 +31,7 @@ struct ContentView: View {
                 Spacer()
                 ZStack {
                     rectangle
-                    Button(action: { buttonAction()}) {
+                    Button(action: { buttonAction(); changeTextButton()}) {
                         Text(buttonText)
                             .font(.title)
                             .foregroundColor(.white)
@@ -39,24 +39,6 @@ struct ContentView: View {
                 }
                 .padding()
             }
-        }
-    }
-    
-    private func buttonAction() {
-        if buttonText == "START" {
-            buttonText = "NEXT"
-        }
-        
-        if red == 0.3 && yellow == 0.3 {
-            red = 1.0
-            green = 0.3
-        } else if yellow == 0.3 {
-            red = 0.3
-            yellow = 1.0
-        } else if green == 0.3 {
-            yellow = 0.3
-            green = 1.0
-            red = 0.3
         }
     }
     
@@ -71,6 +53,26 @@ struct ContentView: View {
             .foregroundColor(.blue)
             .frame(width: 150, height: 50)
             .overlay(Capsule().stroke(Color.white, lineWidth: 4))
+    }
+    
+    private func changeTextButton() {
+        if buttonText == "START" {
+            buttonText = "NEXT"
+        }
+    }
+    
+    private func buttonAction() {
+        if red == 0.3 && yellow == 0.3 {
+            red = 1.0
+            green = 0.3
+        } else if yellow == 0.3 {
+            red = 0.3
+            yellow = 1.0
+        } else if green == 0.3 {
+            yellow = 0.3
+            green = 1.0
+            red = 0.3
+        }
     }
 }
 
