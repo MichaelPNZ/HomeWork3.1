@@ -7,73 +7,49 @@
 
 import SwiftUI
 
+enum CurrentLight {
+    case red, yellow, green
+}
+
 struct ContentView: View {
-    @State private var red = 0.3
-    @State private var yellow = 0.3
-    @State private var green = 0.3
+    
     @State private var buttonText = "START"
+    @State private var currentLight = CurrentLight.red
+    
+    private func nextColor() {
+        switch currentLight {
+        case .red: currentLight = .yellow
+        case .yellow: currentLight = .green
+        case .green: currentLight = .red
+        }
+    }
+}
+
+extension ContentView {
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(.gray)
+            Color(.black)
                 .ignoresSafeArea()
-            VStack {
-                rgbLed
-                    .foregroundColor(.red)
-                    .contrast(red)
-                rgbLed
-                    .foregroundColor(.yellow)
-                    .contrast(yellow)
-                rgbLed
-                    .foregroundColor(.green)
-                    .contrast(green)
+            
+            VStack(spacing: 20) {
+                ColorLight(color: .red, opacity: currentLight == .red ? 1: 0.3)
+                ColorLight(color: .yellow, opacity: currentLight == .yellow ? 1: 0.3)
+                ColorLight(color: .green, opacity: currentLight == .green ? 1: 0.3)
+                
                 Spacer()
-                ZStack {
-                    rectangle
-                    Button(action: { buttonAction(); changeTextButton()}) {
-                        Text(buttonText)
-                            .font(.title)
-                            .foregroundColor(.white)
+                
+                ChangeColorButton(title: buttonText) {
+                    if buttonText == "START" {
+                        buttonText = "NEXT"
                     }
+                    nextColor()
                 }
-                .padding()
             }
+            .padding()
         }
     }
     
-    private var rgbLed: some View {
-        Circle()
-            .frame(width: 130, height: 130)
-            .overlay(Circle().stroke(Color.white, lineWidth: 4))
-    }
-
-    private var rectangle: some View {
-        Capsule()
-            .foregroundColor(.blue)
-            .frame(width: 150, height: 50)
-            .overlay(Capsule().stroke(Color.white, lineWidth: 4))
-    }
-    
-    private func changeTextButton() {
-        if buttonText == "START" {
-            buttonText = "NEXT"
-        }
-    }
-    
-    private func buttonAction() {
-        if red == 0.3 && yellow == 0.3 {
-            red = 1.0
-            green = 0.3
-        } else if yellow == 0.3 {
-            red = 0.3
-            yellow = 1.0
-        } else if green == 0.3 {
-            yellow = 0.3
-            green = 1.0
-            red = 0.3
-        }
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
